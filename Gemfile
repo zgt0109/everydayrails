@@ -39,6 +39,7 @@ gem 'bcrypt', '~> 3.1.7'
 # gem 'debugger', group: [:development, :test]
 
 gem 'bootstrap-sass', '~> 3.1.1'
+gem 'annotate'
 
 group :development, :test do
   gem "rspec-rails", "~> 3.1.0"
