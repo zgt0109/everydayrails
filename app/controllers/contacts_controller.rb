@@ -5,10 +5,20 @@ class ContactsController < ApplicationController
   # GET /contacts
   # GET /contacts.json
   def index
-    if params[:letter]
-      @contacts = Contact.by_letter(params[:letter])
-    else
-      @contacts = Contact.order('lastname, firstname')
+    @contacts = Contact.all
+    respond_to do |format|
+      format.html {
+        if params[:letter]
+          @contacts = Contact.by_letter(params[:letter])
+        else
+          @contacts = Contact.order('lastname, firstname')
+        end
+      }
+      format.csv {
+        send_data Contact.to_csv(@contacts),
+        type: 'text/csv; charset=iso-8859-1; header=present',
+        disposition: 'attachment; filename=contacts.csv'
+      }
     end
   end
 

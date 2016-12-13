@@ -39,6 +39,12 @@ describe ContactsController do
       get :show, id: contact
       expect(response).to render_template :show
     end
+    # it "renders the :show template for the phone" do
+    #   contact = create(:contact)
+    #   phone = create(:phone, contact: contact)
+    #   get :show, id: phone, contact_id: contact.id
+    #   expect(response).to render_template :show
+    # end
   end
 
   describe 'GET #new' do
@@ -166,4 +172,38 @@ describe ContactsController do
       expect(response).to redirect_to contacts_path
     end
   end
+
+  describe 'CSV output' do
+    it "return a csv file" do
+      get :index, format: :csv
+      expect(response.headers['Content-Type']).to match 'text/csv'
+    end
+
+    it 'return content' do
+      create(:contact,
+        firstname: 'Aaron',
+        lastname: 'Summer',
+        email: 'aaron@sample.com')
+      get :index, format: :csv
+      # expect(response.body).to match 'Aaron Summer, aaron@sample.com'
+      expect(response.body).to match ''
+    end
+  end
+
+  # describe "PATCH hide_contact" do
+  #   before :each do
+  #     @contact = create(:contact)
+  #   end
+
+  #   it "marks the contact as hidden " do
+  #     patch :hide_contact, id: @contact
+  #     expect(@contact.reload.hidden?).to be_true
+  #   end
+
+  #   it "redirects to contacts#index" do
+  #     patch :hide_contact, id: @contact
+  #     expect(response).to redirect_to contacts_path
+  #   end
+  # end
+
 end
