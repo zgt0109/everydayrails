@@ -28,6 +28,7 @@ RSpec.configure do |config|
 
   # Include Factory Girl syntax to simplify calls to factories
   config.include FactoryGirl::Syntax::Methods
+  config.filter_run focus: true
 
   # Include custom login macros
   config.include LoginMacros
